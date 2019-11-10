@@ -26,38 +26,54 @@
 export default {
     name: 'Chatroom',
     data () {
-    return {
-      name: '',
-      newMessage: [],
-      messages: [],
-      error: ''
-    }
-  },
-  created () {
-    if (!localStorage.signedIn) {
-      this.$router.replace('/')
-    } else {
-      this.$http.secured.get('/chatrooms/' + this.$route.params.name,  { name: this.$route.params.name })
-        .then(response => { this.messages = response.data })
-        .catch(error => this.setError(error, 'Something went wrong'))
-    }
-  },
-  methods: {
-    setError (error, text) {
-      this.error = (error.response && error.response.data && error.response.data.error) || text
+        return {
+        name: '',
+        newMessage: [],
+        messages: [],
+        error: ''
+        }
     },
-    addMessage () {
-      const value = this.newMessage
-      if (!value) {
-        return
-      }
-      this.$http.secured.post('/messages/', { message: { text: this.newMessage.text, chatroom_name: this.$route.params.name,  user_name: localStorage.user_name } })
-        .then(response => {
-          this.messages.push(response.data)
-          this.newMessage = ''
-        })
-        .catch(error => this.setError(error, 'Cannot create message'))
+    channels: {
+        ChatChannel: {
+            connected() {
+                console.log("CONECTADO")
+            },
+            rejected() {},
+            received(data) {
+                if (data.message)
+                    this.messages.push (data.message)
+            },
+            disconnected() {}
+        }
+    },
+    created () {
+        if (!localStorage.signedIn) {
+        this.$router.replace('/')
+        } else {
+        this.$http.secured.get('/chatrooms/' + this.$route.params.name,  { name: this.$route.params.name })
+            .then(response => { this.messages = response.data })
+            .catch(error => this.setError(error, 'Something went wrong'))
+        }
+    },
+    methods: {
+        setError (error, text) {
+        this.error = (error.response && error.response.data && error.response.data.error) || text
+        },
+        addMessage () {
+        const value = this.newMessage
+        if (!value) {
+            return
+        }
+        this.$http.secured.post('/messages/', { message: { text: this.newMessage.text, chatroom_name: this.$route.params.name,  user_name: localStorage.user_name } })
+            .then(response => {
+            this.messages.push(response.data)
+            this.newMessage = ''
+            })
+            .catch(error => this.setError(error, 'Cannot create message'))
+        }
+    },
+    mounted() {
+        this.$cable.subscribe({ channel: 'chat_' + this.$route.params.name, room: 'public' }, this.$route.params.name);
     }
-  }
 }
 </script>

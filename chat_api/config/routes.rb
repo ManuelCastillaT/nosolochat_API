@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   get 'chatrooms',  controller: :chatrooms, action: :index
   get '/chatrooms/:name', controller: :chatrooms, action: :show
   post 'messages',  controller: :messages, action: :create
+
+  mount ActionCable.server, at: '/cable'
 end

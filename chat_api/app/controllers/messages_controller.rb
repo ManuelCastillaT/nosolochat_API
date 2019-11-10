@@ -13,6 +13,8 @@ class MessagesController < ApplicationController
                 chatroom.messages << message
 
                 if message.save
+                    ActionCable.server.broadcast "chat_" + params[:chatroom_name], { message:  message }
+
                     render json: message, status: :created
                 else
                     render json: message.errors, status: :unprocessable_entity
