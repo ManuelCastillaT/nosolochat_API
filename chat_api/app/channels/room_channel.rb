@@ -1,4 +1,5 @@
 class RoomChannel < ApplicationCable::Channel
+  
   def subscribed
     print "\nPARAMS\n"
     print params

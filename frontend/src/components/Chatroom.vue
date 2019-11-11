@@ -23,6 +23,9 @@
 </template>
 
 <script>
+import ActionCable from "actioncable";
+var cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+
 export default {
     name: 'Chatroom',
     data () {
@@ -38,21 +41,43 @@ export default {
             connected() {
                 console.log("CONECTADO")
             },
-            rejected() {},
+            rejected() {
+                console.log("NO PUDO CONECTAR")
+            },
             received(data) {
                 if (data.message)
                     this.messages.push (data.message)
             },
-            disconnected() {}
+            disconnected() {
+                console.log("DESCONECTADO")
+            }
         }
     },
     created () {
         if (!localStorage.signedIn) {
-        this.$router.replace('/')
-        } else {
-        this.$http.secured.get('/chatrooms/' + this.$route.params.name,  { name: this.$route.params.name })
-            .then(response => { this.messages = response.data })
-            .catch(error => this.setError(error, 'Something went wrong'))
+            this.$router.replace('/')
+        } 
+        else {
+            console.log("HOLA")
+            cable.subscriptions.create({ channel: "RoomChannel", room: this.$route.params.name }, this.$route.params.name ,
+            {
+                connected() {
+                    console.log("CONECTADO")
+                },
+                rejected() {
+                    console.log("NO PUDO CONECTAR")
+                },
+                received(data) {
+                    if (data.message)
+                        this.messages.push (data.message)
+                },
+                disconnected() {
+                    console.log("DESCONECTADO")
+                }
+            });
+            this.$http.secured.get('/chatrooms/' + this.$route.params.name,  { name: this.$route.params.name })
+                .then(response => { this.messages = response.data })
+                .catch(error => this.setError(error, 'Something went wrong'))
         }
     },
     methods: {
@@ -71,9 +96,6 @@ export default {
             })
             .catch(error => this.setError(error, 'Cannot create message'))
         }
-    },
-    mounted() {
-        this.$cable.subscribe({ channel: 'chat_' + this.$route.params.name, room: 'public' }, this.$route.params.name);
     }
 }
 </script>

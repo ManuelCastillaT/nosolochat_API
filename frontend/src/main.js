@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueAxios from 'vue-axios'
-import ActionCableVue from 'actioncable-vue'
+import ActionCable from "actioncable";
 
 import { securedAxiosInstance, plainAxiosInstance } from './backend/axios'
+// import { cable } from './backend/actioncable'
+
 
 Vue.config.productionTip = false
 
@@ -15,7 +17,7 @@ Vue.use(VueAxios, {
   plain: plainAxiosInstance
 })
 
-Vue.use(ActionCableVue, {
+Vue.use(ActionCable, {
   debug: true,
   debugLevel: 'error',
   connectionUrl: 'http://localhost:3000/cable',
@@ -26,6 +28,7 @@ Vue.use(ActionCableVue, {
 new Vue({
   el: '#app',
   router,
+  // cable,
   securedAxiosInstance,
   plainAxiosInstance,
   components: { App },
