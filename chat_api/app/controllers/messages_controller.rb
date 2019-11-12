@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
                 chatroom.messages << message
 
                 if message.save
-                    ActionCable.server.broadcast "chat_" + params[:chatroom_name], { message:  message }
+                    ActionCable.server.broadcast "chat_" + params[:message][:chatroom_name], text:  message.text, username: message.owner_name
 
                     render json: message, status: :created
                 else

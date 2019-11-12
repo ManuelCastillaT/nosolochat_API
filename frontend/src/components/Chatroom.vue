@@ -24,7 +24,7 @@
 
 <script>
 import ActionCable from "actioncable";
-var cable = ActionCable.createConsumer("ws://localhost:3000/cable");
+var cable = ActionCable.createConsumer("ws://localhost:3000/cable?token=" + localStorage.csrf);
 
 export default {
     name: 'Chatroom',
@@ -45,11 +45,10 @@ export default {
                 console.log("NO PUDO CONECTAR")
             },
             received(data) {
-                if (data.message)
-                    this.messages.push (data.message)
+                console.log("RECIBIENDO")
             },
             disconnected() {
-                console.log("DESCONECTADO")
+                console.log(localStorage.csrf)
             }
         }
     },
@@ -59,7 +58,7 @@ export default {
         } 
         else {
             console.log("HOLA")
-            cable.subscriptions.create({ channel: "RoomChannel", room: this.$route.params.name }, this.$route.params.name ,
+            cable.subscriptions.create({ channel: "RoomChannel", chatroom_name: this.$route.params.name } ,
             {
                 connected() {
                     console.log("CONECTADO")
@@ -68,11 +67,12 @@ export default {
                     console.log("NO PUDO CONECTAR")
                 },
                 received(data) {
+                    console.log("RECIBIENDO DATOS")
                     if (data.message)
                         this.messages.push (data.message)
                 },
                 disconnected() {
-                    console.log("DESCONECTADO")
+                    console.log(localStorage.csrf)
                 }
             });
             this.$http.secured.get('/chatrooms/' + this.$route.params.name,  { name: this.$route.params.name })
