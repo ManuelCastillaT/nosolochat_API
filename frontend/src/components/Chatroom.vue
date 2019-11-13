@@ -10,7 +10,7 @@
         </li>
     </ul>
 
-    <form action="" @submit.prevent="addMessage">
+    <form action="" v-on:submit.prevent="addMessage" method="addMessage" id="form1">
         <div class="mb-6">
           <input class="input"
             autofocus autocomplete="off"
@@ -24,7 +24,6 @@
 
 <script>
 import ActionCable from "actioncable";
-var cable = ActionCable.createConsumer("ws://localhost:3000/cable?token=" + localStorage.csrf);
 
 export default {
     name: 'Chatroom',
@@ -33,23 +32,8 @@ export default {
         name: '',
         newMessage: [],
         messages: [],
-        error: ''
-        }
-    },
-    channels: {
-        ChatChannel: {
-            connected() {
-                console.log("CONECTADO")
-            },
-            rejected() {
-                console.log("NO PUDO CONECTAR")
-            },
-            received(data) {
-                console.log("RECIBIENDO")
-            },
-            disconnected() {
-                console.log(localStorage.csrf)
-            }
+        error: '',
+        cable: []
         }
     },
     created () {
@@ -57,8 +41,13 @@ export default {
             this.$router.replace('/')
         } 
         else {
-            console.log("HOLA")
-            cable.subscriptions.create({ channel: "RoomChannel", chatroom_name: this.$route.params.name } ,
+            this.$http.secured.get('/chatrooms/' + this.$route.params.name,  { name: this.$route.params.name })
+                .then(response => { this.messages = response.data })
+                .catch(error => this.setError(error, 'Something went wrong'))
+
+            this.cable = ActionCable.createConsumer("ws://localhost:3000/cable?token=" + localStorage.id);
+
+            this.cable.subscriptions.create({ channel: "RoomChannel", chatroom_name: this.$route.params.name } ,
             {
                 connected() {
                     console.log("CONECTADO")
@@ -66,18 +55,11 @@ export default {
                 rejected() {
                     console.log("NO PUDO CONECTAR")
                 },
-                received(data) {
-                    console.log("RECIBIENDO DATOS")
-                    if (data.message)
-                        this.messages.push (data.message)
-                },
                 disconnected() {
-                    console.log(localStorage.csrf)
-                }
+                    console.log("DESCONECTADO")
+                },
+                received: this.received
             });
-            this.$http.secured.get('/chatrooms/' + this.$route.params.name,  { name: this.$route.params.name })
-                .then(response => { this.messages = response.data })
-                .catch(error => this.setError(error, 'Something went wrong'))
         }
     },
     methods: {
@@ -89,13 +71,21 @@ export default {
         if (!value) {
             return
         }
-        this.$http.secured.post('/messages/', { message: { text: this.newMessage.text, chatroom_name: this.$route.params.name,  user_name: localStorage.user_name } })
+        this.$http.secured.post('/messages/', { message: { text: this.newMessage.text, chatroom_name: this.$route.params.name } })
             .then(response => {
             this.messages.push(response.data)
             this.newMessage = ''
             })
             .catch(error => this.setError(error, 'Cannot create message'))
-        }
+        },
+        received(data) {
+                    console.log(data)
+                    // if (data)
+                    //     this.messages.push(data)
+
+                    // if (this.messages.length >= 20 )
+                    //     this.messages.shift()
+                },
     }
 }
 </script>

@@ -44,10 +44,11 @@ export default {
         .catch(error => this.signupFailed(error))
     },
     signupSuccessful (response) {
-      if (!response.data.login) {
-        this.signupFailed(response)
+      if (!response.data.login || !response.data.token_id) {
+        this.signinFailed(response)
         return
       }
+      localStorage.id = response.data.token_id
       localStorage.csrf = response.data.login.csrf
       localStorage.access = response.data.login.access
       localStorage.signedIn = true
@@ -56,6 +57,7 @@ export default {
     },
     signupFailed (error) {
       this.error = (error.response && error.response.data && error.response.data.error) || 'Something went wrong'
+      delete localStorage.id
       delete localStorage.access
       delete localStorage.csrf
       delete localStorage.signedIn

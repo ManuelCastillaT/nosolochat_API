@@ -7,8 +7,6 @@ import VueAxios from 'vue-axios'
 import ActionCable from "actioncable";
 
 import { securedAxiosInstance, plainAxiosInstance } from './backend/axios'
-// import { cable } from './backend/actioncable'
-
 
 Vue.config.productionTip = false
 
@@ -20,15 +18,14 @@ Vue.use(VueAxios, {
 Vue.use(ActionCable, {
   debug: true,
   debugLevel: 'error',
-  connectionUrl: 'http://localhost:3000/cable',
-  connectImmediately: true
+  connectionUrl: '"ws://localhost:3000/cable',
+  connectImmediately: false
 });
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  // cable,
   securedAxiosInstance,
   plainAxiosInstance,
   components: { App },

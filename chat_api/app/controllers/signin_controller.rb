@@ -11,12 +11,19 @@ class SigninController < ApplicationController
 
         tokens = session.login
 
+        tokenID = JWT.encode(
+          user.id, "nosolosoftware", algorithm='HS256')
+
+        print "\nTOKENID\n"
+        print  tokenID
+        print "\n\n"
+
         response.set_cookie(JWTSessions.access_cookie,
                           value: tokens[:csrf],
                           httponly: true,
                           secure: Rails.env.production?)
 
-        render json: { login: session.login }
+        render json: { login: tokens, token_id: tokenID }
       else
         not_authorized
       end

@@ -30,6 +30,7 @@ export default {
     signOut () {
       this.$http.secured.delete('/signin')
         .then(response => {
+          delete localStorage.id
           delete localStorage.csrf
           delete localStorage.access
           delete localStorage.signedIn
