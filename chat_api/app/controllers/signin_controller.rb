@@ -11,12 +11,7 @@ class SigninController < ApplicationController
 
         tokens = session.login
 
-        tokenID = JWT.encode(
-          user.id, "nosolosoftware", algorithm='HS256')
-
-        print "\nTOKENID\n"
-        print  tokenID
-        print "\n\n"
+        tokenID = JWT.encode(user.id, "nosolosoftware", algorithm='HS256')
 
         response.set_cookie(JWTSessions.access_cookie,
                           value: tokens[:csrf],

@@ -73,18 +73,18 @@ export default {
         }
         this.$http.secured.post('/messages/', { message: { text: this.newMessage.text, chatroom_name: this.$route.params.name } })
             .then(response => {
-            this.messages.push(response.data)
-            this.newMessage = ''
+            //this.messages.push(response.data)
+            this.newMessage = []
             })
             .catch(error => this.setError(error, 'Cannot create message'))
         },
         received(data) {
                     console.log(data)
-                    // if (data)
-                    //     this.messages.push(data)
+                    if (data)
+                        this.messages.push(data)
 
-                    // if (this.messages.length >= 20 )
-                    //     this.messages.shift()
+                    if (this.messages.length >= 20 )
+                        this.messages.shift()
                 },
     }
 }

@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
   end
 
   it "is invalid with a blank password" do
-    user = User.new(name: "User", password: "   ")
+    user = User.new(name: "User", password: "")
     expect(user).to be_invalid
   end
 
