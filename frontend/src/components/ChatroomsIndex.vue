@@ -25,6 +25,8 @@
 
 
 <script>
+import ActionCable from "actioncable";
+
 export default {
     name: 'Chatrooms',
     data () {
@@ -42,6 +44,22 @@ export default {
       this.$http.secured.get('/chatrooms/')
         .then(response => { this.chatrooms = response.data })
         .catch(error => this.setError(error, 'Something went wrong'))
+
+      this.cable = ActionCable.createConsumer("ws://localhost:3000/cable?token=" + localStorage.id);
+
+      this.cable.subscriptions.create({ channel: "IndexChannel" } ,
+      {
+          connected() {
+              console.log("CONECTADO")
+          },
+          rejected() {
+              console.log("NO PUDO CONECTAR")
+          },
+          disconnected() {
+              console.log("DESCONECTADO")
+          },
+          received: this.received
+      });
     }
   },
   methods: {
@@ -56,10 +74,14 @@ export default {
       this.$http.secured.post('/chatrooms/', { chatroom: { name: this.newChatroom.name } })
 
         .then(response => {
-          this.chatrooms.push(response.data)
-          this.newChatroom = ''
+          this.newChatroom = []
         })
         .catch(error => this.setError(error, 'Cannot create chatroom'))
+    },
+    received(data) {
+      console.log(data)
+      if (data)
+          this.chatrooms.push(data)
     }
   }
 }

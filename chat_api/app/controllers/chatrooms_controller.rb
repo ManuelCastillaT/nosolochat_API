@@ -8,6 +8,7 @@ class ChatroomsController < ApplicationController
     else
       chatroom = Chatroom.new(chatroom_params)
       if chatroom.save
+        ActionCable.server.broadcast "Chatroom_Index", name:  chatroom.name
         render json: chatroom, status: :created
       else
         render json: chatroom.errors, status: :unprocessable_entity
@@ -29,10 +30,6 @@ class ChatroomsController < ApplicationController
     else
         messages = {}
     end
-
-    # print "\nMESSAGES\n"
-    # print messages
-    # print "\n"
 
     render json: messages
   end
