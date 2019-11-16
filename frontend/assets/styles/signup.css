@@ -1,0 +1,28 @@
+/* CSS Document */
+form {
+    margin:0;
+    padding:0; }
+  
+input { font:12px arial; }
+  
+#wrapper {
+    margin:0 auto;
+    padding-bottom:25px;
+    background:#EBF4FB;
+    width:504px;
+    border:1px solid #ACD8F0; }
+  
+#submit { width: 60px; }
+  
+#menu { padding:12.5px 25px 12.5px 25px; }
+
+.error { color: #ff0000; }
+    
+.signin {
+    float:right;
+    color:#0000FF;
+    text-decoration:none; }
+    
+.signin:hover { text-decoration:underline; }
+
+.signuptitle {  float:center;}

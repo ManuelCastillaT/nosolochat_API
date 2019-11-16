@@ -1,24 +1,24 @@
+<style scoped src="../../assets/styles/chatroom.css">
+</style>
+
 <template>
-    <div>
-    <h1>Chatroom: {{ this.$route.params.name }}</h1>
-
-    <ul class="list-reset mt-4">
-        <li class="py-4" v-for="message in messages" :key="message.id" :message="message">
-          <div class="flex items-center justify-between flex-wrap">
-            <p> {{message.owner_name}}: {{message.text}}</p>
-          </div>
-        </li>
-    </ul>
-
-    <form action="" v-on:submit.prevent="addMessage" method="addMessage" id="form1">
-        <div class="mb-6">
-          <input class="input"
-            autofocus autocomplete="off"
-            placeholder="Type a message"
-            v-model="newMessage.text" />
+    <div id="wrapper">
+        <div id="menu">
+            <p class="chatname">{{ this.$route.params.name }} <b></b></p>
+            <router-link to="/chatrooms" class="index">Chatrooms</router-link>
+            <div style="clear:both"></div>
         </div>
-        <input type="submit" value="Send message" class="font-sans font-bold px-4 rounded cursor-pointer no-underline bg-green hover:bg-green-dark block w-full py-4 text-white items-center justify-center" />
-    </form>
+      
+        <div id="chatbox">
+            <div v-for="message in messages" :key="message.id" :message="message">
+                <p> {{message.owner_name}}: {{message.text}}</p>
+            </div>
+        </div>
+
+        <form action="" @submit.prevent="addMessage">
+            <input name="usermsg"  size="63" class="input" autofocus autocomplete="off" placeholder="Type a message" v-model="newMessage.text" />
+            <input type="submit" value="Send message" />
+        </form>
     </div>
 </template>
 

@@ -1,25 +1,25 @@
+<style scoped src="../../assets/styles/index.css">
+</style>
+
 <template>
-    <div>
-      <div class="text-red" v-if="error">{{ error }}</div>
-      <h3 class="font-mono font-regular text-3xl mb-4">Add a new chatroom</h3>
-      <form action="" @submit.prevent="addChatroom">
-        <div class="mb-6">
-          <input class="input"
-            autofocus autocomplete="off"
-            placeholder="Type a name"
-            v-model="newChatroom.name" />
+    <div id="wrapper">
+        <div id="menu">
+            <a href="#" class="signout" @click.prevent="signOut" >Sign out</a>
+            <div style="clear:both"></div>
         </div>
-        <input type="submit" value="Add Chatroom" class="font-sans font-bold px-4 rounded cursor-pointer no-underline bg-green hover:bg-green-dark block w-full py-4 text-white items-center justify-center" />
-      </form>
 
-      <ul class="list-reset mt-4">
-        <li class="py-4" v-for="chatroom in chatrooms" :key="chatroom.id" :chatroom="chatroom">
+        <ul>
+            <li v-for="chatroom in chatrooms" :key="chatroom.id" :chatroom="chatroom">
+                <router-link id="chatroomlink" v-bind:to="'/chatrooms/' + chatroom.name">{{chatroom.name}}</router-link>
+            </li>
+        </ul>
 
-          <div class="flex items-center justify-between flex-wrap">
-            <h2><router-link v-bind:to="'/chatrooms/' + chatroom.name">{{chatroom.name}}</router-link></h2>
-          </div>
-        </li>
-      </ul>
+        <h3 class="addchatroomtitle">Add a new chatroom</h3>
+        <div class="error" v-if="error">{{ error }}</div>
+        <form action="" @submit.prevent="addChatroom">
+            <input name="chatname"  size="50" class="input" autocomplete="off" placeholder="Type a name" v-model="newChatroom.name" />
+            <input type="submit" value="Add Chatroom" />
+        </form>
     </div>
 </template>
 
@@ -72,11 +72,21 @@ export default {
         return
       }
       this.$http.secured.post('/chatrooms/', { chatroom: { name: this.newChatroom.name } })
-
         .then(response => {
           this.newChatroom = []
         })
         .catch(error => this.setError(error, 'Cannot create chatroom'))
+    },
+    signOut () {
+      this.$http.secured.delete('/signin')
+        .then(response => {
+          delete localStorage.id
+          delete localStorage.csrf
+          delete localStorage.access
+          delete localStorage.signedIn
+          this.$router.replace('/')
+        })
+        .catch(error => this.setError(error, 'Cannot sign out'))
     },
     received(data) {
       console.log(data)

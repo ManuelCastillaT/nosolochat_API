@@ -1,24 +1,26 @@
+<style scoped src="../../assets/styles/signup.css">
+</style>
+
 <template>
-  <div class="max-w-sm m-auto my-8">
-    <div class="border p-10 border-grey-light shadow rounded">
-      <h3 class="text-2xl mb-6 text-grey-darkest">Sign Up</h3>
-      <form @submit.prevent="signup">
-        <div class="text-red" v-if="error">{{ error }}</div>
-
-        <div class="mb-6">
-          <label for="name" class="label">User Name</label>
-          <input type="name" v-model="name" class="input" id="name" placeholder="Name">
+    <div id="wrapper">
+        <div id="menu">
+            <router-link to="/" class="signin">Sign In</router-link>
+            <div style="clear:both"></div>
         </div>
 
-        <div class="mb-6">
-          <label for="password" class="label">Password</label>
-          <input type="password" v-model="password" class="input" id="password" placeholder="Password">
-        </div>
+        <h3 class="signuptitle">Sign Up</h3>
+        <div class="error" v-if="error">{{ error }}</div>
 
-        <button type="submit" class="font-sans font-bold px-4 rounded cursor-pointer no-underline bg-green hover:bg-green-dark block w-full py-4 text-white items-center justify-center">Sign Up</button>
-      </form>
+        <form action="" @submit.prevent="signup">
+            <label for="name">Use Name</label>
+            <input name="username" size="50" class="input" autofocus autocomplete="off" placeholder="Name" v-model="name" />
+
+            <label for="password">Password</label>
+            <input name="password" type="password" size="50" class="input" autocomplete="off" placeholder="Password" v-model="password">
+
+            <input type="submit" value="Sign Up" />
+        </form>
     </div>
-  </div>
 </template>
 
 <script>
