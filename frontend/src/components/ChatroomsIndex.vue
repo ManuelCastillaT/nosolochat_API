@@ -34,7 +34,8 @@ export default {
       name: '',
       chatrooms: [],
       newChatroom: [],
-      error: ''
+      error: '',
+      cable: []
     }
   },
   created () {
@@ -49,15 +50,6 @@ export default {
 
       this.cable.subscriptions.create({ channel: "IndexChannel" } ,
       {
-          connected() {
-              console.log("CONECTADO")
-          },
-          rejected() {
-              console.log("NO PUDO CONECTAR")
-          },
-          disconnected() {
-              console.log("DESCONECTADO")
-          },
           received: this.received
       });
     }
@@ -89,7 +81,6 @@ export default {
         .catch(error => this.setError(error, 'Cannot sign out'))
     },
     received(data) {
-      console.log(data)
       if (data)
           this.chatrooms.push(data)
     }

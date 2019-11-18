@@ -64,3 +64,36 @@ MONGODB | [16] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"users",
 MONGODB | [16] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
 MONGODB | [17] localhost:27017 #2 | admin.endSessions | STARTED | {"endSessions"=>[{"id"=><BSON::Binary:0x47191491987280 type=uuid data=0xcb26fcc81d514bc0...>}]}
 MONGODB | [17] localhost:27017 | admin.endSessions | SUCCEEDED | 0.000s
+MONGODB | EVENT: #<TopologyOpening topology=Unknown[]>
+MONGODB | Topology type 'unknown' initializing.
+MONGODB | EVENT: #<TopologyChanged prev=Unknown[] new=Unknown[localhost:27017]>
+MONGODB | Topology type 'Unknown' changed to type 'Unknown'.
+MONGODB | EVENT: #<ServerOpening address=localhost:27017 topology=Unknown[localhost:27017]>
+MONGODB | Server localhost:27017 initializing.
+MONGODB | Waiting for up to 30.00 seconds for servers to be scanned: #<Cluster topology=Unknown[localhost:27017] servers=[#<Server address=localhost:27017 UNKNOWN>]>
+MONGODB | EVENT: #<ServerDescriptionChanged address=localhost:27017 topology=Single[localhost:27017] prev=#<Mongo::Server:Description:0x47408769653200 config={} average_round_trip_time=> new=#<Mongo::Server:Description:0x47408769786780 config={"ismaster"=>true, "maxBsonObjectSize"=>16777216, "maxMessageSizeBytes"=>48000000, "maxWriteBatchSize"=>100000, "localTime"=>2019-11-18 17:01:59 UTC, "logicalSessionTimeoutMinutes"=>30, "minWireVersion"=>0, "maxWireVersion"=>6, "readOnly"=>false, "ok"=>1.0} average_round_trip_time=0.001222583>>
+MONGODB | Server description for localhost:27017 changed from 'unknown' to 'standalone'.
+MONGODB | EVENT: #<TopologyChanged prev=Unknown[localhost:27017] new=Single[localhost:27017]>
+MONGODB | Topology type 'Unknown' changed to type 'Single'.
+MONGODB | [7] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"chatrooms", "filter"=>{"name"=>"aaaaa"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [7] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [8] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"chatrooms", "filter"=>{"name"=>"aaaaa"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [8] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [9] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"chatrooms", "filter"=>{"name"=>"     "}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [9] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [10] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"chatrooms", "filter"=>{"name"=>"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [10] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [11] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"chatrooms", "filter"=>{"name"=>"aaa"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [11] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [12] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"users", "filter"=>{"name"=>"User"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [12] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [13] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"users", "filter"=>{"name"=>"User"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [13] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [14] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"users", "filter"=>{"name"=>"    "}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [14] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [15] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"users", "filter"=>{"name"=>"aaa"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [15] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [16] localhost:27017 #1 | chat_test.find | STARTED | {"find"=>"users", "filter"=>{"name"=>"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}, "projection"=>{"_id"=>1}, "limit"=>1, "lsid"=>{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}}
+MONGODB | [16] localhost:27017 | chat_test.find | SUCCEEDED | 0.000s
+MONGODB | [17] localhost:27017 #2 | admin.endSessions | STARTED | {"endSessions"=>[{"id"=><BSON::Binary:0x47408769887700 type=uuid data=0x9f2f4df48e7a4820...>}]}
+MONGODB | [17] localhost:27017 | admin.endSessions | SUCCEEDED | 0.000s

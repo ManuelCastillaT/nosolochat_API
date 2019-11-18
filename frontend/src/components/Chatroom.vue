@@ -49,33 +49,24 @@ export default {
 
             this.cable.subscriptions.create({ channel: "RoomChannel", chatroom_name: this.$route.params.name } ,
             {
-                connected() {
-                    console.log("CONECTADO")
-                },
-                rejected() {
-                    console.log("NO PUDO CONECTAR")
-                },
-                disconnected() {
-                    console.log("DESCONECTADO")
-                },
                 received: this.received
             });
         }
     },
     methods: {
         setError (error, text) {
-        this.error = (error.response && error.response.data && error.response.data.error) || text
+            this.error = (error.response && error.response.data && error.response.data.error) || text
         },
         addMessage () {
-        const value = this.newMessage
-        if (!value) {
-            return
-        }
-        this.$http.secured.post('/messages/', { message: { text: this.newMessage.text, chatroom_name: this.$route.params.name } })
-            .then(response => {
-            this.newMessage = []
-            })
-            .catch(error => this.setError(error, 'Cannot create message'))
+            const value = this.newMessage
+            if (!value) {
+                return
+            }
+            this.$http.secured.post('/messages/', { message: { text: this.newMessage.text, chatroom_name: this.$route.params.name } })
+                .then(response => {
+                this.newMessage = []
+                })
+                .catch(error => this.setError(error, 'Cannot create message'))
         },
         received(data) {
             if (data)

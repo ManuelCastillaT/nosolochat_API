@@ -4,7 +4,7 @@ Intructions for
 
 1. Clone repository
 
-* git clone URL
+* git clone https://github.com/ManuelCastillaT/nosolochat_API.git
 
 2. Install gems on api
 
