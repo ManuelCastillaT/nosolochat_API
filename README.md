@@ -10,23 +10,27 @@ Intructions for
 
 * bundle install
 
-3. Install redis-server
+3. Install vue
+
+* sudo npm install -g @vue/cli
+
+4. Install redis-server
 
 * sudo apt install redis-server
 
-4. Run mongodb server
+5. Run mongodb server
 
 * service mondodb start
 
-5. Run redis server
+6. Run redis server
 
 * redis-server
 
-6. Run frontend
+7. Run frontend
 
-* yarn dev
+* npm start
 
-7. Run backend
+8. Run backend
 
 * rails server
 
